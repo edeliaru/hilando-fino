@@ -140,8 +140,8 @@ public class Simulador {
     }
 
     public double utilizarHiloAlgpes241(double kg_hilo) {
-        double cant_prod_p1;
-        double cant_prod_p2;
+        double cant_prod_p1=0;
+        double cant_prod_p2=0;
         double cant_teorica;
 
             if (st_Acetex>= st_Vardham) {
@@ -153,11 +153,14 @@ public class Simulador {
                 st_Acetex -= cant_prod_p1;
                 kg_hilo -= cant_teorica;
 
-                eficiencia_Vardham= getEfiVardham();
-                cant_teoirica_v+=Math.min(st_Vardham,kg_hilo);
-                cant_real_v+=Math.min(st_Vardham,kg_hilo)*eficiencia_Vardham;
-                cant_prod_p2=Math.min(st_Vardham,kg_hilo)*eficiencia_Vardham;
-                st_Vardham -= cant_prod_p2;
+                if(kg_hilo>0){
+                    eficiencia_Vardham= getEfiVardham();
+                    cant_teoirica_v+=Math.min(st_Vardham,kg_hilo);
+                    cant_real_v+=Math.min(st_Vardham,kg_hilo)*eficiencia_Vardham;
+                    cant_prod_p2=Math.min(st_Vardham,kg_hilo)*eficiencia_Vardham;
+                    st_Vardham -= cant_prod_p2;
+                }
+
 
 
             } else {
@@ -170,17 +173,20 @@ public class Simulador {
                 st_Vardham -= cant_prod_p2;
                 kg_hilo -= cant_teorica;
 
-                eficiencia_Acetex=getEfiAcetex();
-                cant_teoirica_a+=Math.min(st_Acetex,kg_hilo);
-                cant_real_a += Math.min(st_Acetex,kg_hilo)*eficiencia_Acetex;
-                cant_prod_p1 = Math.min(st_Acetex,kg_hilo)*eficiencia_Acetex;
-                st_Acetex -= cant_prod_p1;
+                if(kg_hilo>0){
+                    eficiencia_Acetex=getEfiAcetex();
+                    cant_teoirica_a+=Math.min(st_Acetex,kg_hilo);
+                    cant_real_a += Math.min(st_Acetex,kg_hilo)*eficiencia_Acetex;
+                    cant_prod_p1 = Math.min(st_Acetex,kg_hilo)*eficiencia_Acetex;
+                    st_Acetex -= cant_prod_p1;
+                }
+
         }
         return cant_prod_p2 + cant_prod_p1;
     }
     public double utilizarHiloAlgpes121(double kg_hilo) {
-        double cant_prod_p1;
-        double cant_prod_p2;
+        double cant_prod_p1=0;
+        double cant_prod_p2=0;
         double cant_teorica;
             if (st_Windsom>= st_TDB) {
 
@@ -192,11 +198,14 @@ public class Simulador {
                 st_Windsom -= cant_prod_p1;
                 kg_hilo -= cant_teorica;
 
-                eficiencia_TDB=gerEfiTDB();
-                cant_teoirica_t+=Math.min(st_TDB,kg_hilo);
-                cant_real_t+=Math.min(st_TDB,kg_hilo)*eficiencia_TDB;
-                cant_prod_p2=Math.min(st_TDB,kg_hilo)*eficiencia_TDB;
-                st_TDB -= cant_prod_p2;
+                if(kg_hilo>0){
+                    eficiencia_TDB=gerEfiTDB();
+                    cant_teoirica_t+=Math.min(st_TDB,kg_hilo);
+                    cant_real_t+=Math.min(st_TDB,kg_hilo)*eficiencia_TDB;
+                    cant_prod_p2=Math.min(st_TDB,kg_hilo)*eficiencia_TDB;
+                    st_TDB -= cant_prod_p2;
+                }
+
 
             } else {
                 eficiencia_TDB=gerEfiTDB();
@@ -206,11 +215,14 @@ public class Simulador {
                 st_TDB -= cant_prod_p2;
                 kg_hilo -= cant_prod_p2;
 
-                eficiencia_Windsom=getEfiWindsom();
-                cant_teoirica_w+=Math.min(st_Windsom,kg_hilo);
-                cant_real_w+=Math.min(st_Windsom,kg_hilo)*eficiencia_Windsom;
-                cant_prod_p1=Math.min(st_Windsom,kg_hilo)*eficiencia_Windsom;
-                st_Windsom -= cant_prod_p1;
+                if (kg_hilo>0){
+                    eficiencia_Windsom=getEfiWindsom();
+                    cant_teoirica_w+=Math.min(st_Windsom,kg_hilo);
+                    cant_real_w+=Math.min(st_Windsom,kg_hilo)*eficiencia_Windsom;
+                    cant_prod_p1=Math.min(st_Windsom,kg_hilo)*eficiencia_Windsom;
+                    st_Windsom -= cant_prod_p1;
+                }
+
 
             }
 
@@ -218,8 +230,8 @@ public class Simulador {
 
     }
     public double utilizarHiloAlgpol121(double kg_hilo) {
-        double cant_prod_p1;
-        double cant_prod_p2;
+        double cant_prod_p1=0;
+        double cant_prod_p2=0;
         double cant_teorica;
 
             if (st_Sportking>= st_GPI) {
@@ -231,11 +243,14 @@ public class Simulador {
                 st_Sportking -= cant_prod_p1;
                 kg_hilo -= cant_teorica;
 
-                eficiencia_GPI=getEfiGPI();
-                cant_teoirica_g+=Math.min(st_GPI,kg_hilo);
-                cant_real_g+=Math.min(st_GPI,kg_hilo)*eficiencia_GPI;
-                cant_prod_p2=Math.min(st_GPI,kg_hilo)*eficiencia_GPI;
-                st_GPI -= cant_prod_p2;
+                if (kg_hilo>0){
+                    eficiencia_GPI=getEfiGPI();
+                    cant_teoirica_g+=Math.min(st_GPI,kg_hilo);
+                    cant_real_g+=Math.min(st_GPI,kg_hilo)*eficiencia_GPI;
+                    cant_prod_p2=Math.min(st_GPI,kg_hilo)*eficiencia_GPI;
+                    st_GPI -= cant_prod_p2;
+                }
+
 
 
             } else {
@@ -246,11 +261,14 @@ public class Simulador {
                 st_GPI -= cant_prod_p2;
                 kg_hilo -= cant_prod_p2;
 
-                eficiencia_Sportking=getEfiSportking();
-                cant_teoirica_s+=Math.min(st_Sportking,kg_hilo);
-                cant_real_s+=Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
-                cant_prod_p1=Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
-                st_Sportking -= cant_prod_p1;
+                if (kg_hilo>0){
+                    eficiencia_Sportking=getEfiSportking();
+                    cant_teoirica_s+=Math.min(st_Sportking,kg_hilo);
+                    cant_real_s+=Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
+                    cant_prod_p1=Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
+                    st_Sportking -= cant_prod_p1;
+                }
+
 
             }
         return cant_prod_p2 + cant_prod_p1;
