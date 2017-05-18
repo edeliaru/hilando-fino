@@ -14,13 +14,13 @@ public class Simulador {
     private double kg_JerseyLycra;
     private double kg_Frisa;
 
-    //VARIABLES DE CONTROL : KG ENTREGADOS POR PROVEEDORES
-    private double kg_Acetex=1000;
-    private double kg_Vardham=0;
-    private double kg_GPI=1300;
-    private double kg_Sportking=2530;
-    private double kg_Windsom=3100;
-    private double kg_TDB=2500;
+    //VARIABLES DE CONTROL
+    private double kg_Acetex=1000; //bueno en efi //barato
+    private double kg_Vardham=0; //bueno en efi  //caro
+    private double kg_Sportking=6000; //malo en efi //barato
+    private double kg_GPI=0; //malisimo en efi    //caro
+    private double kg_Windsom=7000; //malo en efi //barato
+    private double kg_TDB=0; //bueno en efi //caro
 
     //VALOR FIJO PRECIO HILO
     private double costo_Acetex=50;
@@ -30,13 +30,13 @@ public class Simulador {
     private double costo_Windsom=38;
     private double costo_TDB=40;
 
-    //VARIABLES DE ESTADO : CANTIDAD DE STOCK DE LOS hilos
-    private double st_Acetex=250;
-    private double st_Vardham=50;
+    //VARIABLES DE ESTADO
+    private double st_Acetex=1000;
+    private double st_Vardham=0;
+    private double st_Sportking=6000;
     private double st_GPI=0;
-    private double st_Sportking=100;
-    private double st_Windsom=2200;
-    private double st_TDB=1700;
+    private double st_Windsom=7000;
+    private double st_TDB=0;
 
     int time=0;
     int tiempoFinal=10000;
@@ -333,30 +333,37 @@ public class Simulador {
         printDouble("El costo promedio es: ",costos_tot_f/time);
         System.out.println("");
 
-        System.out.println("-----CantPromMensual_Acetex inutilizado: "
-              +printDouble(inutilidad_a/time*25)
-              +" de: "+printDouble(cant_teorica_a /time*25)
-              +" a un valor de: $"+costo_Acetex+" por kilo");
-        System.out.println("-----CantPromMensual_Vardham inutilizado: "
-              +printDouble(inutilidad_v/time*25)
-              +" de: "+printDouble(cant_teorica_v /time*25)
-              +" a un valor de: $"+costo_Vardham+" por kilo");
-        System.out.println("-----CantPromMensual_GPI inutilizado: "
-               +printDouble(inutilidad_g/time*25)
-               +" de: "+printDouble(cant_teorica_g /time*25)
-               +" a un valor de: $"+costo_GPI+" por kilo");
-        System.out.println("-----CantPromMensual_Sportking inutilizado: "
-               +printDouble(inutilidad_s/time*25)+" de: "
-                +printDouble(cant_teorica_s /time*25)
-               +" a un valor de: $"+costo_Sportking+" por kilo");
-        System.out.println("-----CantPromMensual_Windsom inutilizado: "
-               +printDouble(inutilidad_w/time*25)+" de: "
-               +printDouble(cant_teorica_w /time*25)
-               +" a un valor de: $"+costo_Windsom+" por kilo");
-        System.out.println("-----CantPromMensual_TDB inutilizado: "
-                +printDouble(inutilidad_t/time*25)
-                +" de: "+printDouble(cant_teorica_t /time*25)
-                +" a un valor de: $"+costo_TDB+" por kilo");
+//        System.out.println("-----CantPromMensual_Acetex inutilizado: "
+//              +printDouble(inutilidad_a/time*25)
+//              +" de: "+printDouble(cant_teorica_a /time*25)
+//              +" a un valor de: $"+costo_Acetex+" por kilo");
+//        System.out.println("-----CantPromMensual_Vardham inutilizado: "
+//              +printDouble(inutilidad_v/time*25)
+//              +" de: "+printDouble(cant_teorica_v /time*25)
+//              +" a un valor de: $"+costo_Vardham+" por kilo");
+//        System.out.println("-----CantPromMensual_GPI inutilizado: "
+//               +printDouble(inutilidad_g/time*25)
+//               +" de: "+printDouble(cant_teorica_g /time*25)
+//               +" a un valor de: $"+costo_GPI+" por kilo");
+//        System.out.println("-----CantPromMensual_Sportking inutilizado: "
+//               +printDouble(inutilidad_s/time*25)+" de: "
+//                +printDouble(cant_teorica_s /time*25)
+//               +" a un valor de: $"+costo_Sportking+" por kilo");
+//        System.out.println("-----CantPromMensual_Windsom inutilizado: "
+//               +printDouble(inutilidad_w/time*25)+" de: "
+//               +printDouble(cant_teorica_w /time*25)
+//               +" a un valor de: $"+costo_Windsom+" por kilo");
+//        System.out.println("-----CantPromMensual_TDB inutilizado: "
+//                +printDouble(inutilidad_t/time*25)
+//                +" de: "+printDouble(cant_teorica_t /time*25)
+//                +" a un valor de: $"+costo_TDB+" por kilo");
+
+        System.out.println("-----PorcentajeAcetex inutilizado: "+printDouble(inutilidad_a/cant_teorica_a *100)+"%");
+        System.out.println("-----PorcentajeVardham inutilizado: " +printDouble(inutilidad_v/cant_teorica_v *100)+"%");
+        System.out.println("-----PorcentajeGPI inutilizado: " +printDouble(inutilidad_g/cant_teorica_g *100)+"%");
+        System.out.println("-----PorcentajeSportking inutilizado: " +printDouble(inutilidad_s/cant_teorica_s *100)+"%");
+        System.out.println("-----PorcentajeWindsom inutilizado: " +printDouble(inutilidad_w/cant_teorica_w *100)+"%");
+        System.out.println("-----PorcentajeTDB inutilizado: " +printDouble(inutilidad_t/cant_teorica_t *100)+"%");
 
     }
 
