@@ -15,10 +15,10 @@ public class Simulador {
     private double kg_Frisa;
 
     //VARIABLES DE CONTROL : KG ENTREGADOS POR PROVEEDORES
-    private double kg_Acetex=100;
-    private double kg_Vardham=500;
-    private double kg_GPI=2530;
-    private double kg_Sportking=1300;
+    private double kg_Acetex=1000;
+    private double kg_Vardham=0;
+    private double kg_GPI=1300;
+    private double kg_Sportking=2530;
     private double kg_Windsom=3100;
     private double kg_TDB=2500;
 
@@ -54,6 +54,23 @@ public class Simulador {
     int time=0;
     int tiempoFinal=10000;
 
+    double st_total_a =0;
+    double st_total_v =0;
+    double st_total_s =0;
+    double st_total_g =0;
+    double st_total_t =0;
+    double st_total_w =0;
+
+    double cant_prod_a =0;
+    double cant_prod_v =0;
+    double cant_prod_s =0;
+    double cant_prod_g =0;
+    double cant_prod_t =0;
+    double cant_prod_w =0;
+
+    double costos_tot_jl=0;
+    double costos_tot_f=0;
+
     public void simular(){
         double kgRealesJL=0;
         double kgRealesFrisa=0;
@@ -63,7 +80,18 @@ public class Simulador {
             kg_Frisa=1200;
             ingresaStock(time);
             kgRealesJL += fabricarJL();
+            costos_tot_jl += cant_prod_a*costo_Acetex+cant_prod_v*costo_Vardham+cant_prod_g*costo_GPI+cant_prod_s*costo_Sportking;
             kgRealesFrisa += fabricarFrisa();
+            costos_tot_f += cant_prod_w*costo_Windsom+cant_prod_t*costo_TDB+cant_prod_g*costo_GPI+cant_prod_s*costo_Sportking;
+
+            st_total_a += st_Acetex;
+            st_total_v += st_Vardham;
+            st_total_s += st_Sportking;
+            st_total_g += st_GPI;
+            st_total_t += st_TDB;
+            st_total_w += st_total_w;
+
+
         }
         calcularResultados(kgRealesJL,kgRealesFrisa,time);
 
@@ -182,6 +210,8 @@ public class Simulador {
                 }
 
         }
+        cant_prod_a=cant_prod_p1;
+        cant_prod_v=cant_prod_p2;
         return cant_prod_p2 + cant_prod_p1;
     }
     public double utilizarHiloAlgpes121(double kg_hilo) {
@@ -232,6 +262,9 @@ public class Simulador {
 
 
             }
+
+        cant_prod_w=cant_prod_p1;
+        cant_prod_t=cant_prod_p2;
 
         return cant_prod_p2 + cant_prod_p1;
 
@@ -285,6 +318,8 @@ public class Simulador {
 
 
             }
+        cant_prod_s=cant_prod_p1;
+        cant_prod_g=cant_prod_p2;
         return cant_prod_p2 + cant_prod_p1;
 
 
@@ -293,26 +328,29 @@ public class Simulador {
         double promKgRealesJL = kgRealesJL/time;
         double promkgRealesFrisa = kgRealesFrisa/time;
 
-        double inutilidad_a = (cant_teorica_a -cant_real_a);
-        double inutilidad_v = (cant_teorica_v -cant_real_v);
-        double inutilidad_s = (cant_teorica_s -cant_real_s);
-        double inutilidad_g = (cant_teorica_g -cant_real_g);
-        double inutilidad_t = (cant_teorica_t -cant_real_t);
-        double inutilidad_w = (cant_teorica_w -cant_real_w);
-
         System.out.println("---------------Resultados Obtenidos------------------------");
         System.out.println("-----------------------------------------------------------");
 
         System.out.println("-----Para fabricar: "+kg_JerseyLycra+"kg de JerseyLycara ");
         System.out.println("Variables de control: "+ " \n Kg_Acetex:"+kg_Acetex+""+ " \n Kg_Vardham:"+kg_Vardham+"\n Kg_Sportking:"+kg_Sportking+"\n Kg_GPI:"+kg_GPI);
         printDouble("El promedio KgRealesJL por día",promKgRealesJL);
+        printDouble("El costo promedio es: ",costos_tot_jl/time);
+
         System.out.println("");
         System.out.println("-----Para fabricar "+kg_Frisa+"kg de Frisa ");
         System.out.println("Variables de control: "+" \n Kg_Windsom:"+kg_Windsom+""+ " \n Kg_TDB:"+kg_TDB+"\n Kg_Sportking:"+kg_Sportking+"\n Kg_GPI:"+kg_GPI);
         printDouble("El promedio KgRealesFrisa por día",promkgRealesFrisa);
+        printDouble("El costo promedio es: ",costos_tot_f/time);
         System.out.println("");
 
-//        System.out.println("-----CantPromMensual_Acetex inutilizado: "+printDouble(inutilidad_a/time*30)
+//opcion1
+//        double inutilidad_a = (cant_teorica_a -cant_real_a);
+//        double inutilidad_v = (cant_teorica_v -cant_real_v);
+//        double inutilidad_s = (cant_teorica_s -cant_real_s);
+//        double inutilidad_g = (cant_teorica_g -cant_real_g);
+//        double inutilidad_t = (cant_teorica_t -cant_real_t);
+//        double inutilidad_w = (cant_teorica_w -cant_real_w);
+//        System.out.println("-----CantPromMensual_Acetex inutilizado: "+printDouble(inutilidad_a/time*25)
 //                +" de: "+printDouble(cant_teorica_a /time*25)
 //                +" a un valor de: $"+costo_Acetex+" por kilo");
 //        System.out.println("-----CantPromMensual_Vardham inutilizado: "
@@ -332,26 +370,13 @@ public class Simulador {
 //                +" de: "+printDouble(cant_teorica_t /time*25)
 //                +" a un valor de: $"+costo_TDB+" por kilo");
 
-
-        System.out.println("-----CantPromMensual_Acetex inutilizado: "+printDouble(inutilidad_a/time*30)
-                +" de: "+printDouble(cant_teorica_a /time*25)
-                +" a un valor de: $"+costo_Acetex+" por kilo");
-        System.out.println("-----CantPromMensual_Vardham inutilizado: "
-                +printDouble(inutilidad_v/time*25)
-                +" de: "+printDouble(cant_teorica_v /time*25)
-                +" a un valor de: $"+costo_Vardham+" por kilo");
-        System.out.println("-----CantPromMensual_GPI inutilizado: "+printDouble(inutilidad_g/time*25)
-                +" de: "+printDouble(cant_teorica_g /time*25)
-                +" a un valor de: $"+costo_GPI+" por kilo");
-        System.out.println("-----CantPromMensual_Sportking inutilizado: "
-                +printDouble(inutilidad_s/time*25)+" de: "+printDouble(cant_teorica_s /time*25)
-                +" a un valor de: $"+costo_Sportking+" por kilo");
-        System.out.println("-----CantPromMensual_Windsom inutilizado: "
-                +printDouble(inutilidad_w/time*25)+" de: "+printDouble(cant_teorica_w /time*25)
-                +" a un valor de: $"+costo_Windsom+" por kilo");
-        System.out.println("-----CantPromMensual_TDB inutilizado: "+printDouble(inutilidad_t/time*25)
-                +" de: "+printDouble(cant_teorica_t /time*25)
-                +" a un valor de: $"+costo_TDB+" por kilo");
+//--opcion2
+//        printDouble("-----Inventario_Prom_Mensual_Acetex: ",st_total_a /time*costo_Acetex);
+//        printDouble("-----Inventario_Prom_Mensual_Vardham: ",st_total_v /time*costo_Vardham);
+//        printDouble("-----Inventario_Prom_Mensual_GPI: ",st_total_g /time*costo_GPI);
+//        printDouble("-----Inventario_Prom_Mensual_Sportking: ",st_total_s /time*costo_Sportking);
+//        printDouble("-----Inventario_Prom_Mensual_Windsom: ",st_total_w /time*costo_Windsom);
+//        printDouble("-----Inventario_Prom_Mensual_TDB: ",st_total_t /time*costo_TDB);
     }
 
     public double getEfiSportking() {
