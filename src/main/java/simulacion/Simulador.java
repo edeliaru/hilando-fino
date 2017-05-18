@@ -38,28 +38,8 @@ public class Simulador {
     private double st_Windsom=2200;
     private double st_TDB=1700;
 
-    double cant_teorica_a =0;
-    double cant_real_a =0;
-    double cant_teorica_v =0;
-    double cant_real_v =0;
-    double cant_teorica_s =0;
-    double cant_real_s =0;
-    double cant_teorica_g =0;
-    double cant_real_g =0;
-    double cant_teorica_t =0;
-    double cant_real_t =0;
-    double cant_teorica_w =0;
-    double cant_real_w =0;
-
     int time=0;
     int tiempoFinal=10000;
-
-    double st_total_a =0;
-    double st_total_v =0;
-    double st_total_s =0;
-    double st_total_g =0;
-    double st_total_t =0;
-    double st_total_w =0;
 
     double cant_prod_a =0;
     double cant_prod_v =0;
@@ -83,15 +63,6 @@ public class Simulador {
             costos_tot_jl += cant_prod_a*costo_Acetex+cant_prod_v*costo_Vardham+cant_prod_g*costo_GPI+cant_prod_s*costo_Sportking;
             kgRealesFrisa += fabricarFrisa();
             costos_tot_f += cant_prod_w*costo_Windsom+cant_prod_t*costo_TDB+cant_prod_g*costo_GPI+cant_prod_s*costo_Sportking;
-
-            st_total_a += st_Acetex;
-            st_total_v += st_Vardham;
-            st_total_s += st_Sportking;
-            st_total_g += st_GPI;
-            st_total_t += st_TDB;
-            st_total_w += st_total_w;
-
-
         }
         calcularResultados(kgRealesJL,kgRealesFrisa,time);
 
@@ -169,8 +140,6 @@ public class Simulador {
             if (st_Acetex>= st_Vardham) {
                 eficiencia_Acetex=getEfiAcetex();
                 cant_teorica=Math.min(st_Acetex-st_Vardham,kg_hilo);
-                cant_teorica_a +=cant_teorica;
-                cant_real_a+=Math.min(st_Acetex-st_Vardham,kg_hilo)*eficiencia_Acetex;
                 cant_prod_p1=Math.min(st_Acetex-st_Vardham,kg_hilo)*eficiencia_Acetex;
                 st_Acetex -= cant_prod_p1;
                 kg_hilo -= cant_teorica;
@@ -180,8 +149,6 @@ public class Simulador {
                     if(st_Vardham<kg_hilo){
                         System.out.println("No alcanzo varham");
                     }
-                    cant_teorica_v +=Math.min(st_Vardham,kg_hilo);
-                    cant_real_v+=Math.min(st_Vardham,kg_hilo)*eficiencia_Vardham;
                     cant_prod_p2=Math.min(st_Vardham,kg_hilo)*eficiencia_Vardham;
                     st_Vardham -= cant_prod_p2;
                 }
@@ -192,8 +159,6 @@ public class Simulador {
 
                 eficiencia_Vardham= getEfiVardham();
                 cant_teorica=Math.min(st_Vardham-st_Acetex,kg_hilo);
-                cant_teorica_v +=cant_teorica;
-                cant_real_v+=Math.min(st_Vardham-st_Acetex,kg_hilo)*eficiencia_Vardham;
                 cant_prod_p2=Math.min(st_Vardham-st_Acetex,kg_hilo)*eficiencia_Vardham;
                 st_Vardham -= cant_prod_p2;
                 kg_hilo -= cant_teorica;
@@ -203,8 +168,6 @@ public class Simulador {
                     if(st_Acetex<kg_hilo){
                         System.out.println("No alcanzo acetex");
                     }
-                    cant_teorica_a +=Math.min(st_Acetex,kg_hilo);
-                    cant_real_a += Math.min(st_Acetex,kg_hilo)*eficiencia_Acetex;
                     cant_prod_p1 = Math.min(st_Acetex,kg_hilo)*eficiencia_Acetex;
                     st_Acetex -= cant_prod_p1;
                 }
@@ -222,19 +185,15 @@ public class Simulador {
 
                 eficiencia_Windsom=getEfiWindsom();
                 cant_teorica=Math.min(st_Windsom-st_TDB,kg_hilo);
-                cant_teorica_w +=cant_teorica;
-                cant_real_w+=Math.min(st_Windsom-st_TDB,kg_hilo)*eficiencia_Windsom;
                 cant_prod_p1=Math.min(st_Windsom-st_TDB,kg_hilo)*eficiencia_Windsom;
                 st_Windsom -= cant_prod_p1;
                 kg_hilo -= cant_teorica;
 
                 if(kg_hilo>0){
                     eficiencia_TDB=getEfiTDB();
-                    cant_teorica_t +=Math.min(st_TDB,kg_hilo);
                     if(st_TDB<kg_hilo){
                         System.out.println("No alcanzo tdb");
                     }
-                    cant_real_t+=Math.min(st_TDB,kg_hilo)*eficiencia_TDB;
                     cant_prod_p2=Math.min(st_TDB,kg_hilo)*eficiencia_TDB;
                     st_TDB -= cant_prod_p2;
                 }
@@ -243,19 +202,15 @@ public class Simulador {
             } else {
                 eficiencia_TDB=getEfiTDB();
                 cant_teorica=Math.min(st_TDB-st_Windsom,kg_hilo);
-                cant_teorica_t +=cant_teorica;
-                cant_real_t+=Math.min(st_TDB-st_Windsom,kg_hilo)*eficiencia_TDB;
                 cant_prod_p2=Math.min(st_TDB-st_Windsom,kg_hilo)*eficiencia_TDB;
                 st_TDB -= cant_prod_p2;
                 kg_hilo -= cant_teorica;
 
                 if (kg_hilo>0){
                     eficiencia_Windsom=getEfiWindsom();
-                    cant_teorica_w +=Math.min(st_Windsom,kg_hilo);
                     if(st_Windsom<kg_hilo){
                         System.out.println("No alcanzo windsom");
                     }
-                    cant_real_w+=Math.min(st_Windsom,kg_hilo)*eficiencia_Windsom;
                     cant_prod_p1=Math.min(st_Windsom,kg_hilo)*eficiencia_Windsom;
                     st_Windsom -= cant_prod_p1;
                 }
@@ -277,8 +232,6 @@ public class Simulador {
             if (st_Sportking>= st_GPI) {
                 eficiencia_Sportking=getEfiSportking();
                 cant_teorica=Math.min(st_Sportking-st_GPI,kg_hilo);
-                cant_teorica_s +=cant_teorica;
-                cant_real_s+=Math.min(st_Sportking-st_GPI,kg_hilo)*eficiencia_Sportking;
                 cant_prod_p1=Math.min(st_Sportking-st_GPI,kg_hilo)*eficiencia_Sportking;
                 st_Sportking -= cant_prod_p1;
                 kg_hilo -= cant_teorica;
@@ -288,8 +241,6 @@ public class Simulador {
                     if(st_GPI<kg_hilo){
                         System.out.println("No alcanzo gpi");
                     }
-                    cant_teorica_g +=Math.min(st_GPI,kg_hilo);
-                    cant_real_g+=Math.min(st_GPI,kg_hilo)*eficiencia_GPI;
                     cant_prod_p2=Math.min(st_GPI,kg_hilo)*eficiencia_GPI;
                     st_GPI -= cant_prod_p2;
                 }
@@ -299,8 +250,6 @@ public class Simulador {
             } else {
                 eficiencia_GPI=getEfiGPI();
                 cant_teorica=Math.min(st_GPI-st_Sportking,kg_hilo);
-                cant_teorica_g +=cant_teorica;
-                cant_real_g+=Math.min(st_GPI-st_Sportking,kg_hilo)*eficiencia_GPI;
                 cant_prod_p2=Math.min(st_GPI-st_Sportking,kg_hilo)*eficiencia_GPI;
                 st_GPI -= cant_prod_p2;
                 kg_hilo -= cant_teorica;
@@ -310,9 +259,8 @@ public class Simulador {
                     if(st_Sportking<kg_hilo){
                         System.out.println("No alcanzo sportking");
                     }
-                    cant_teorica_s +=Math.min(st_Sportking,kg_hilo);
-                    cant_real_s+=Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
-                    cant_prod_p1=Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
+                    cant_prod_p1=
+                            Math.min(st_Sportking,kg_hilo)*eficiencia_Sportking;
                     st_Sportking -= cant_prod_p1;
                 }
 
@@ -343,40 +291,6 @@ public class Simulador {
         printDouble("El costo promedio es: ",costos_tot_f/time);
         System.out.println("");
 
-//opcion1
-//        double inutilidad_a = (cant_teorica_a -cant_real_a);
-//        double inutilidad_v = (cant_teorica_v -cant_real_v);
-//        double inutilidad_s = (cant_teorica_s -cant_real_s);
-//        double inutilidad_g = (cant_teorica_g -cant_real_g);
-//        double inutilidad_t = (cant_teorica_t -cant_real_t);
-//        double inutilidad_w = (cant_teorica_w -cant_real_w);
-//        System.out.println("-----CantPromMensual_Acetex inutilizado: "+printDouble(inutilidad_a/time*25)
-//                +" de: "+printDouble(cant_teorica_a /time*25)
-//                +" a un valor de: $"+costo_Acetex+" por kilo");
-//        System.out.println("-----CantPromMensual_Vardham inutilizado: "
-//                +printDouble(inutilidad_v/time*25)
-//                +" de: "+printDouble(cant_teorica_v /time*25)
-//                +" a un valor de: $"+costo_Vardham+" por kilo");
-//        System.out.println("-----CantPromMensual_GPI inutilizado: "+printDouble(inutilidad_g/time*25)
-//                +" de: "+printDouble(cant_teorica_g /time*25)
-//                +" a un valor de: $"+costo_GPI+" por kilo");
-//        System.out.println("-----CantPromMensual_Sportking inutilizado: "
-//                +printDouble(inutilidad_s/time*25)+" de: "+printDouble(cant_teorica_s /time*25)
-//                +" a un valor de: $"+costo_Sportking+" por kilo");
-//        System.out.println("-----CantPromMensual_Windsom inutilizado: "
-//                +printDouble(inutilidad_w/time*25)+" de: "+printDouble(cant_teorica_w /time*25)
-//                +" a un valor de: $"+costo_Windsom+" por kilo");
-//        System.out.println("-----CantPromMensual_TDB inutilizado: "+printDouble(inutilidad_t/time*25)
-//                +" de: "+printDouble(cant_teorica_t /time*25)
-//                +" a un valor de: $"+costo_TDB+" por kilo");
-
-//--opcion2
-//        printDouble("-----Inventario_Prom_Mensual_Acetex: ",st_total_a /time*costo_Acetex);
-//        printDouble("-----Inventario_Prom_Mensual_Vardham: ",st_total_v /time*costo_Vardham);
-//        printDouble("-----Inventario_Prom_Mensual_GPI: ",st_total_g /time*costo_GPI);
-//        printDouble("-----Inventario_Prom_Mensual_Sportking: ",st_total_s /time*costo_Sportking);
-//        printDouble("-----Inventario_Prom_Mensual_Windsom: ",st_total_w /time*costo_Windsom);
-//        printDouble("-----Inventario_Prom_Mensual_TDB: ",st_total_t /time*costo_TDB);
     }
 
     public double getEfiSportking() {
@@ -431,10 +345,6 @@ public class Simulador {
         Random generator = new Random();
         double number = generator.nextDouble();
         return number;
-    }
-    public String printDouble(double d){
-        String value =new DecimalFormat("#.##").format(d);
-        return value;
     }
     public void printDouble(String s,double d){
         String value =new DecimalFormat("#.##").format(d);
