@@ -5,12 +5,12 @@ import java.util.Random;
 public class Simulador {
 
     //VARIABLES DE CONTROL
-    private double kg_Acetex=1000;
-    private double kg_Vardham=0;
-    private double kg_Sportking=0;
-    private double kg_GPI=6000;
-    private double kg_Windsom=7000;
-    private double kg_TDB=0;
+    private double kg_Acetex=500;
+    private double kg_Vardham=500;
+    private double kg_Sportking=2000;
+    private double kg_GPI=2000;
+    private double kg_Windsom=1000;
+    private double kg_TDB=1000;
 
     //VALOR FIJO PRECIO HILO
     private double costo_Acetex=50;
@@ -21,15 +21,15 @@ public class Simulador {
     private double costo_TDB=41;
 
     //VARIABLES DE ESTADO
-    private double st_Acetex=1000;
-    private double st_Vardham=0;
-    private double st_Sportking=0;
-    private double st_GPI=6000;
-    private double st_Windsom=7000;
-    private double st_TDB=0;
+    private double st_Acetex=500;
+    private double st_Vardham=500;
+    private double st_Sportking=2000;
+    private double st_GPI=2000;
+    private double st_Windsom=1000;
+    private double st_TDB=1000;
 
     int time=0;
-    int tiempoFinal=10000;
+    int tiempoFinal=1000000;
 
     double cant_prod_a =0;
     double cant_prod_v =0;
@@ -48,16 +48,14 @@ public class Simulador {
     private double eficiencia_Windsom;
     private double eficiencia_TDB;
 
-    private double kg_JerseyLycra;
-    private double kg_Frisa;
+    private double kg_JerseyLycra=500;
+    private double kg_Frisa=1200;
 
     public void simular(){
         double kgRealesJL=0;
         double kgRealesFrisa=0;
         while(time<=tiempoFinal){
             time++;
-            kg_JerseyLycra=500;
-            kg_Frisa=1200;
             ingresaStock(time);
             kgRealesJL += fabricarJL();
             costos_tot_jl += cant_prod_a*costo_Acetex+cant_prod_v*costo_Vardham+cant_prod_g*costo_GPI+cant_prod_s*costo_Sportking;
@@ -114,12 +112,12 @@ public class Simulador {
 
     public double fabricarJL(){
 
-        double algpes241 = 0.2 * kg_JerseyLycra;
+        double lycra = 0.2 * kg_JerseyLycra;
         double algpol121 = 0.8 * kg_JerseyLycra;
 
-        double kgRealesAlgpes241 = utilizarHiloAlgpes241(algpes241);
+        double kgRealesLycra = utilizarHiloLycra(lycra);
         double kgRealesAlgpol121 = utilizarHiloAlgpol121(algpol121);
-        double total = kgRealesAlgpol121+kgRealesAlgpes241;
+        double total = kgRealesAlgpol121+kgRealesLycra;
         return total;
     }
     public double fabricarFrisa(){
@@ -132,7 +130,7 @@ public class Simulador {
         return kgRealesAlgpes121+kgRealesAlgpol121;
     }
 
-    public double utilizarHiloAlgpes241(double kg_hilo) {
+    public double utilizarHiloLycra(double kg_hilo) {
         double cant_prod_p1=0;
         double cant_prod_p2=0;
         double cant_teorica;
@@ -230,7 +228,7 @@ public class Simulador {
         cant_prod_g=cant_prod_p2;
         return cant_prod_p2 + cant_prod_p1;
     }
-    
+
     public void calcularResultados(double kgRealesJL, double kgRealesFrisa, double time){
         double promKgRealesJL = kgRealesJL/time;
         double promkgRealesFrisa = kgRealesFrisa/time;
@@ -241,13 +239,13 @@ public class Simulador {
         System.out.println("-----Para fabricar: "+kg_JerseyLycra+"kg de JerseyLycara ");
         System.out.println("Variables de control: "+ " \n Kg_Acetex:"+kg_Acetex+""+ " \n Kg_Vardham:"+kg_Vardham+"\n Kg_Sportking:"+kg_Sportking+"\n Kg_GPI:"+kg_GPI);
         printDouble("Prom_Kg_Prod_JerseyLycra_xdia",promKgRealesJL);
-        printDouble("Prom_Costo_Prod_JerseyLycra_xdia",costos_tot_jl/time);
+        printDouble("Prom_Costo_Kg_JerseyLycra",(costos_tot_jl/time)/promKgRealesJL);
 
         System.out.println("");
         System.out.println("-----Para fabricar "+kg_Frisa+"kg de Frisa ");
         System.out.println("Variables de control: "+" \n Kg_Windsom:"+kg_Windsom+""+ " \n Kg_TDB:"+kg_TDB+"\n Kg_Sportking:"+kg_Sportking+"\n Kg_GPI:"+kg_GPI);
-        printDouble("Prom_Kg_Prod_Frisa_xdia",promkgRealesFrisa);
-        printDouble("Prom_Costo_Prod_Frisa_xdia: ",costos_tot_f/time);
+        printDouble("Kg_Prod_Frisa_xdia",promkgRealesFrisa);
+        printDouble("Prom_Costo_Kg_Frisa",(costos_tot_f/time)/promkgRealesFrisa);
         System.out.println("");
     }
 
